@@ -1,0 +1,34 @@
+{
+  "name": "citypoint",
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.2.4"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/css/bootstrap.css"
+      ]
+    },
+    "jquery": {
+      "main": [
+        "dist/jquery.min.js"
+      ]
+    },
+    "select2": {
+      "main": [
+        "dist/js/select2.min.js"
+      ]
+    },
+    "jquery.event.move": {
+      "main": [
+        "js/jquery.event.move.js"
+      ]
+    },
+    "jquery.maskedinput": {
+      "main": [
+        "dist/jquery.maskedinput.js"
+      ]
+    }
+  }
+}
