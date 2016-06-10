@@ -1,8 +1,15 @@
 import {
     WEATHER_REQUEST,
     WEATHER_SUCCESS,
-    WEATHER_ERROR
+    WEATHER_ERROR,
+    FORECAST_SUCCESS
 } from '../constants/Weather';
+
+
+
+const
+    apiKey = 'f62ffc23f38cb4e279f975075a5eb20a',
+    url = 'http://api.openweathermap.org/data/2.5/';
 
 export function getWeather(city) {
     return (dispatch) => {
@@ -11,9 +18,8 @@ export function getWeather(city) {
         });
 
         const
-            apiKey = 'f62ffc23f38cb4e279f975075a5eb20a',
-            url = 'http://api.openweathermap.org/data/2.5/weather',
-            getLink = url + '?q=' + city + '&appid=' + apiKey + '&units=metric';
+            type = 'weather',
+            getLink = url + type + '?q=' + city + '&appid=' + apiKey + '&units=metric';
 
         $.get(getLink)
             .done((data) => {
@@ -32,6 +38,24 @@ export function getWeather(city) {
                 dispatch({
                     type: WEATHER_ERROR
                 });
+            });
+    }
+}
+
+export function getForecast(city) {
+    return (dispatch) => {
+        const
+            type = 'forecast',
+            getLink = url + type + '?q=' + city + '&appid=' + apiKey + '&units=metric';
+
+        $.get(getLink)
+            .done((data) => {
+                if(data.cod == 200){
+                    dispatch({
+                        type: FORECAST_SUCCESS,
+                        payload: data.list
+                    });
+                }
             });
     }
 }

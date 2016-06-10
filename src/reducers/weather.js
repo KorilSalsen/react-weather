@@ -1,9 +1,15 @@
-import {WEATHER_REQUEST, WEATHER_SUCCESS, WEATHER_ERROR} from '../constants/Weather';
+import {
+    WEATHER_REQUEST,
+    WEATHER_SUCCESS,
+    WEATHER_ERROR,
+    FORECAST_SUCCESS
+} from '../constants/Weather';
 
 const initialState = {
     data: {},
     status: 'empty',
-    city: 'Лондон'
+    city: 'Лондон',
+    list: []
 };
 
 export default function weather(state = initialState, action = undefined) {
@@ -12,9 +18,12 @@ export default function weather(state = initialState, action = undefined) {
             return {...state, status: 'load'};
         case(WEATHER_SUCCESS):
             const {data, city} = action.payload;
-            return {...state, status: 'success', data, city};
+
+            return {...state, status: 'current', data, city};
         case(WEATHER_ERROR):
             return {...state, status: 'error', data: {}};
+        case(FORECAST_SUCCESS):
+            return {...state, status: 'forecast', list: action.payload};
         default:
             return state;
     }

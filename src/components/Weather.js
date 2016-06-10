@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import StatsList from './StatsList';
+import Forecast from './Forecast';
 
 export default class Weather extends Component {
 
@@ -9,10 +11,16 @@ export default class Weather extends Component {
     changeCity = (e) => {
         e.preventDefault();
 
-        const city = this.refs.city.value;
+        const
+            city = this.refs.city.value,
+            forecast = this.refs.forecast.checked;
 
         if (city.trim()) {
             this.props.actions.getWeather(city);
+
+            if(forecast){
+                this.props.actions.getForecast(city);
+            }
         }
     };
 
@@ -22,7 +30,7 @@ export default class Weather extends Component {
         return (
             <div className="weather container">
                 <div className="row">
-                    <h1 className=" col-md-12">Погода в городе {this.props.state.city}</h1>
+                    <h1 className="col-md-12">Погода в городе {this.props.state.city}</h1>
                 </div>
                 <div className="row">
                     <div className="city col-md-6">
@@ -62,32 +70,19 @@ export default class Weather extends Component {
                         </form>
                     </div>
                     {
-                        state.status === 'success' ?
-                            <ul className="col-md-6 list-unstyled">
-                                <li>Температура: {state.data.main.temp}&deg;C</li>
-                                <li className="row">
-                                    <div className="col-md-6">
-                                        Скорость ветра: {state.data.wind.speed}м/с
-                                    </div>
-                                    <div
-                                        className="glyphicon glyphicon-arrow-right col-md-1"
-                                        style={{
-                                            transform: 'rotate(' + state.data.wind.deg + 'deg)'
-                                            }}>
-                                    </div>
-                                </li>
-                                < li > Влажность воздуха: {state.data.main.humidity}%</li>
-                                <li>Атмосферное давление: {(state.data.main.pressure / 1.33).toFixed(2)}мм ртутного
-                                    столба
-                                </li>
-                                <li>Облачность: {state.data.clouds.all}%</li>
-                            </ul>
+                        state.status === 'current' || state.status === 'forecast' ?
+                            <StatsList data={state.data} width={6}/>
                             : state.status === 'load' ?
                             <div>load...</div>
                             :
                             <div>error</div>
                     }
                 </div>
+                {
+                    state.status === 'forecast' ?
+                        <Forecast list={state.list}/>
+                        : ''
+                }
             </div>
         );
     }

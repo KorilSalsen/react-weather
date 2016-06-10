@@ -58,5 +58,10 @@ gulp.task('sass', function () {
         .pipe(gulp.dest('build/css/'));
 });
 
+//Watch
+gulp.task('watch', function(){
+    gulp.watch('src/styles/**/*scss', ['sass']);
+});
+
 //Default
-gulp.task('default', ['sass', 'bower', 'server']);
+gulp.task('default', ['sass', 'bower', 'server', 'watch']);
