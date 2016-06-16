@@ -41,27 +41,20 @@ gulp.task('bower', function(){
         .pipe(gulp.dest('build/'));
 });
 
-//Sass
-gulp.task('sass', function () {
-    return gulp.src('src/styles/styles.scss')
+//Stylus
+gulp.task('stylus', function () {
+    gulp.src('src/styles/styles.styl')
         .pipe(pl.plumber())
-        .pipe(pl.sass({
-            style: 'compressed',
-            errLogToConsole: true,
-            sourcemaps: false
-        }))
-        .on('error', pl.sass.logError)
-        .pipe(pl.autoprefixer({
-            browsers: ['last 3 versions'],
-            cascade: true
-        }))
+        .pipe(pl.sourcemaps.init())
+        .pipe(pl.stylus())
+        .pipe(pl.sourcemaps.write())
         .pipe(gulp.dest('build/css/'));
 });
 
 //Watch
 gulp.task('watch', function(){
-    gulp.watch('src/styles/**/*scss', ['sass']);
+    gulp.watch('src/styles/**/*.styl', ['stylus']);
 });
 
 //Default
-gulp.task('default', ['sass', 'bower', 'server', 'watch']);
+gulp.task('default', ['stylus', 'bower', 'server', 'watch']);

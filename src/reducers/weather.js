@@ -2,7 +2,9 @@ import {
     WEATHER_REQUEST,
     WEATHER_SUCCESS,
     WEATHER_ERROR,
-    FORECAST_SUCCESS
+    FORECAST_SUCCESS,
+    FORECAST_ERROR,
+    FORECAST_REQUEST
 } from '../constants/Weather';
 
 const initialState = {
@@ -14,13 +16,13 @@ const initialState = {
 
 export default function weather(state = initialState, action = undefined) {
     switch (action.type) {
-        case(WEATHER_REQUEST):
+        case(WEATHER_REQUEST || FORECAST_REQUEST):
             return {...state, status: 'load'};
         case(WEATHER_SUCCESS):
             const {data, city} = action.payload;
 
             return {...state, status: 'current', data, city};
-        case(WEATHER_ERROR):
+        case(WEATHER_ERROR || FORECAST_ERROR):
             return {...state, status: 'error', data: {}};
         case(FORECAST_SUCCESS):
             return {...state, status: 'forecast', list: action.payload};

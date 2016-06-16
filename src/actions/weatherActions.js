@@ -2,7 +2,9 @@ import {
     WEATHER_REQUEST,
     WEATHER_SUCCESS,
     WEATHER_ERROR,
-    FORECAST_SUCCESS
+    FORECAST_SUCCESS,
+    FORECAST_ERROR,
+    FORECAST_REQUEST
 } from '../constants/Weather';
 
 
@@ -24,16 +26,18 @@ export function getWeather(city) {
         $.get(getLink)
             .done((data) => {
                 if(data.cod == 200){
-                    dispatch({
+                    dispatch({ 
                         type: WEATHER_SUCCESS,
                         payload: {data, city}
                     });
                 } else {
+                    console.log(data);
+
                     dispatch({
                         type: WEATHER_ERROR
                     });
                 }
-            })
+            })  
             .fail(() => {
                 dispatch({
                     type: WEATHER_ERROR
@@ -44,6 +48,10 @@ export function getWeather(city) {
 
 export function getForecast(city) {
     return (dispatch) => {
+        dispatch({
+            type: FORECAST_REQUEST
+        });
+        
         const
             type = 'forecast',
             getLink = url + type + '?q=' + city + '&appid=' + apiKey + '&units=metric';
@@ -55,7 +63,18 @@ export function getForecast(city) {
                         type: FORECAST_SUCCESS,
                         payload: data.list
                     });
-                }
+                }else {
+                    console.log(data);
+
+                    dispatch({
+                        type: FORECAST_ERROR
+                    });
+                } 
+            })
+            .fail(() => {
+                dispatch({
+                    type: FORECAST_ERROR
+                });
             });
     }
 }

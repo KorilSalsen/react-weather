@@ -41,7 +41,7 @@ export default class Weather extends Component {
                                 <div className="col-md-10">
                                     <input type="text" id="city" list="city-list" name="city" ref="city"
                                            defaultValue={this.props.state.city}
-                                           className="form-control"
+                                           className="form-control" 
                                         />
                                     <datalist name="city-list" id="city-list">
                                         <option value="Москва">Москва</option>
@@ -71,11 +71,11 @@ export default class Weather extends Component {
                     </div>
                     {
                         state.status === 'current' || state.status === 'forecast' ?
-                            <StatsList data={state.data} width={6}/>
+                            <StatsList data={state.data} width={6} title={'Сейчас ' + new Date().toLocaleString('ru')}/>
                             : state.status === 'load' ?
                             <div>load...</div>
                             :
-                            <div>error</div>
+                            <div>error</div> 
                     }
                 </div>
                 {
